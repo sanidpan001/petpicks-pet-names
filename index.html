@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PetPicks — Free Pet Name Generator | Cute Dog Names, Funny Cat Names & More</title>
+<meta name="description" content="PetPicks is a free pet name generator with 300+ cute dog names, funny cat names, bird, rabbit & exotic pet names — every name with its meaning, a pun-name mode, breed presets and a favorites shortlist. No signup needed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { cream: '#FEF3C7', choco: '#78350F', tang: '#FB923C', tangdark: '#EA580C', chocosoft: '#92400E' },
+    fontFamily: { display: ['Fredoka','sans-serif'], body: ['Nunito','sans-serif'] }
+  }}
+};
+</script>
+<style>
+  body { font-family: 'Nunito', sans-serif; }
+  .font-display { font-family: 'Fredoka', sans-serif; }
+  .paw-bg { background-image: radial-gradient(#fbbf24 1.5px, transparent 1.5px); background-size: 26px 26px; }
+  .card-pop { transition: transform .15s ease, box-shadow .15s ease; }
+  .card-pop:hover { transform: translateY(-3px); }
+  .type-card[aria-pressed="true"] { outline: 3px solid #FB923C; background: #fff; }
+  .pill[aria-pressed="true"] { background: #78350F; color: #FEF3C7; border-color: #78350F; }
+  .seg[aria-pressed="true"] { background: #78350F; color: #FEF3C7; }
+  .preset-chip[aria-pressed="true"] { background: #FB923C; color: #78350F; border-color: #EA580C; }
+  .fav-btn[aria-pressed="true"] { color: #e11d48; }
+  .fade-in { animation: fadeIn .35s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: none;} }
+  .toggle-dot { transition: transform .2s ease; }
+</style>
+</head>
+<body id="top" class="bg-cream text-choco font-body min-h-screen">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b-2 border-tang/40">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="font-display text-2xl sm:text-3xl font-700 font-bold tracking-tight text-choco">
+      🐾 Pet<span class="text-tangdark">Picks</span>
+    </a>
+    <nav class="flex items-center gap-4 sm:gap-6 text-sm sm:text-base font-bold">
+      <a href="#top" class="hover:text-tangdark transition-colors">Home</a>
+      <a href="https://fixoraa.tech" class="bg-choco text-cream px-4 py-2 rounded-full hover:bg-tangdark transition-colors">More Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="paw-bg border-b-2 border-tang/30">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 text-center">
+    <h1 class="font-display text-4xl sm:text-6xl font-bold leading-tight">Find the <span class="text-tangdark">paw-fect</span> name<br class="hidden sm:block"> for your new best friend</h1>
+    <p class="mt-4 text-base sm:text-xl text-chocosoft max-w-2xl mx-auto font-semibold">Pick a pet, choose a vibe, and get hand-picked names — every single one with its meaning. Save your favorites to a shortlist.</p>
+    <div class="mt-5 inline-flex items-center gap-2 bg-white border-2 border-tang rounded-full px-5 py-2 font-extrabold text-sm sm:text-base shadow-sm">
+      <span class="text-lg">🎉</span> Unlimited Free Usage <span class="text-chocosoft font-semibold">· no signup · no paywall</span>
+    </div>
+  </div>
+</section>
+
+<!-- TOP AD (verbatim) -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOOL ============ -->
+<main class="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
+
+  <div class="bg-white rounded-3xl border-2 border-tang/50 shadow-xl shadow-orange-100 p-5 sm:p-8">
+
+    <!-- Pet type cards -->
+    <h2 class="font-display text-xl sm:text-2xl font-semibold mb-3">1 · Pick your pet</h2>
+    <div id="typeCards" class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-7"></div>
+
+    <!-- Gender -->
+    <h2 class="font-display text-xl sm:text-2xl font-semibold mb-3">2 · Boy, girl, or either?</h2>
+    <div id="genderSeg" class="inline-flex bg-cream border-2 border-tang/40 rounded-full p-1 mb-7" role="group" aria-label="Gender">
+      <button type="button" data-gender="m" class="seg px-5 sm:px-7 py-2 rounded-full font-extrabold" aria-pressed="false">♂ Boy</button>
+      <button type="button" data-gender="f" class="seg px-5 sm:px-7 py-2 rounded-full font-extrabold" aria-pressed="false">♀ Girl</button>
+      <button type="button" data-gender="any" class="seg px-5 sm:px-7 py-2 rounded-full font-extrabold" aria-pressed="true">⚥ Any</button>
+    </div>
+
+    <!-- Styles -->
+    <h2 class="font-display text-xl sm:text-2xl font-semibold mb-1">3 · Choose a vibe <span class="text-sm font-body font-semibold text-chocosoft">(pick any, or none for a mix)</span></h2>
+    <div id="stylePills" class="flex flex-wrap gap-2.5 mb-7 mt-3"></div>
+
+    <!-- Pun mode -->
+    <div class="mb-7 bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-dashed border-tangdark/60 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4">
+      <div>
+        <h2 class="font-display text-xl sm:text-2xl font-semibold">🎭 Pun Generator Mode</h2>
+        <p class="text-sm sm:text-base text-chocosoft font-semibold">Names like <em>Bark Twain</em>, <em>Dolly Purrton</em> &amp; <em>Sir Pounce-a-Lot</em> — pure comedy gold.</p>
+      </div>
+      <button id="punToggle" type="button" role="switch" aria-checked="false" aria-label="Pun generator mode"
+        class="shrink-0 w-16 h-9 rounded-full bg-choco/20 relative transition-colors">
+        <span class="toggle-dot absolute top-1 left-1 w-7 h-7 rounded-full bg-white shadow"></span>
+      </button>
+    </div>
+
+    <!-- Breed / vibe presets -->
+    <div id="presetWrap" class="mb-7">
+      <h2 class="font-display text-xl sm:text-2xl font-semibold mb-1">4 · Breed / vibe preset <span class="text-sm font-body font-semibold text-chocosoft">(optional — biases the name pool)</span></h2>
+      <div id="presetChips" class="flex flex-wrap gap-2.5 mt-3"></div>
+      <p id="presetBlurb" class="text-sm text-chocosoft font-semibold mt-2 hidden"></p>
+    </div>
+
+    <!-- Generate -->
+    <div class="text-center mb-2">
+      <button id="generateBtn" type="button"
+        class="font-display text-xl sm:text-2xl font-semibold bg-tang hover:bg-tangdark text-choco hover:text-white px-10 sm:px-14 py-4 rounded-full shadow-lg shadow-orange-200 transition-all active:scale-95">
+        🎲 Generate Names
+      </button>
+      <p class="text-xs text-chocosoft font-semibold mt-2">Fresh batch of 12 every click · never repeats within a batch</p>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <section id="resultsSection" class="mt-8 hidden">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-display text-2xl sm:text-3xl font-semibold">✨ Your name ideas</h2>
+      <button id="moreBtn" type="button" class="font-bold text-sm sm:text-base bg-white border-2 border-tang rounded-full px-5 py-2 hover:bg-tang/20 transition-colors">🔁 Shuffle more</button>
+    </div>
+    <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <p id="emptyMsg" class="hidden text-center text-chocosoft font-bold py-10 bg-white rounded-2xl border-2 border-dashed border-tang/60">Hmm, no names match that combo — try loosening a filter or two! 🐾</p>
+  </section>
+
+  <!-- Favorites -->
+  <section id="favSection" class="mt-10">
+    <div class="bg-choco text-cream rounded-3xl p-5 sm:p-8 shadow-xl">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h2 class="font-display text-2xl sm:text-3xl font-semibold">❤️ Favorites shortlist <span id="favCount" class="text-tang text-xl">(0)</span></h2>
+        <div class="flex gap-2">
+          <button id="copyFavsBtn" type="button" class="text-sm font-extrabold bg-tang text-choco px-4 py-2 rounded-full hover:bg-white transition-colors">📋 Copy list</button>
+          <button id="clearFavsBtn" type="button" class="text-sm font-extrabold bg-white/15 px-4 py-2 rounded-full hover:bg-white/30 transition-colors">🗑 Clear</button>
+        </div>
+      </div>
+      <p class="text-cream/70 text-sm font-semibold mb-4">Tap the heart on any name to keep it here. Your shortlist is saved in this browser automatically.</p>
+      <div id="favGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      <p id="favEmpty" class="text-cream/60 font-bold text-center py-6">No favorites yet — go generate some names and tap the 🤍!</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- BOTTOM AD (verbatim) -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="464498"></script>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEO ARTICLE ============ -->
+<section class="mx-auto max-w-4xl px-4 sm:px-6 pb-10">
+<article id="seo-article" class="bg-white rounded-3xl border-2 border-tang/40 p-6 sm:p-10 shadow-lg shadow-orange-100 prose-headings:font-display">
+  <h2 class="font-display text-3xl sm:text-4xl font-bold mb-5">The Complete Guide to Choosing the Perfect Pet Name</h2>
+
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Bringing home a new pet is one of life's happiest moments — and one of the first big decisions you'll make is what to call them. A pet's name is the word you'll say thousands of times over the years: at the park, at the vet, in the middle of the night when they're chewing something they shouldn't. Whether you're hunting for cute dog names, funny cat names, or truly unique pet names for a bird, rabbit, hamster or reptile, this guide will walk you through everything that matters, from the science of how animals learn words to the creative tricks behind unforgettable pun names.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">Why your pet's name matters more than you think</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">A name is not just a label — it's a training tool. Animal behaviorists have found that pets respond fastest to names that are short (one or two syllables), end in a vowel sound, and sound clearly different from common commands. That's why classics like Max, Bella, Milo and Luna have stayed popular for decades: they're easy to say loudly across a dog park, easy for kids to pronounce, and easy for the animal to distinguish from "sit", "stay" or "no". When you use a pet name generator, pay attention to how each candidate feels when you shout it, whisper it, and say it fifty times in a row — because you will.</p>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">There's also an emotional side. Studies on the human-animal bond show that owners who feel their pet's name "fits" report stronger attachment and more positive daily interactions. A name that makes you smile every time you say it — whether it's an elegant Athena, a goofy Biscuit, or a pun like Bark Twain — quietly strengthens the relationship. So while popularity lists are a useful starting point, the best name is ultimately the one that feels right when you look into those eyes.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">Cute dog names: female and male ideas that never get old</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Dog name trends move in waves, but a few categories are evergreen. For female dogs, soft vowel-heavy names dominate the charts year after year: Luna, Bella, Daisy, Rosie, Sadie and Ruby are perennial favorites because they sound warm and carry happy meanings — Luna means "moon" in Latin, Bella means "beautiful" in Italian. For male dogs, strong single-syllable or bouncy two-syllable names rule: Max, Rocky, Milo, Charlie, Cooper and Teddy. Notice how many end in a vowel or an "ee" sound? That's the pattern trainers recommend.</p>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Beyond the classics, food-inspired dog names have exploded in popularity — Biscuit, Mochi, Pepper, Waffles, Noodle and Meatball are all rising fast, partly because they're inherently cheerful and partly because they suit the round, lovable reality of most dogs. Pop-culture names are another huge category: Simba and Nala for the Disney fans, Thor and Loki for Marvel households, Yoda and Leia for Star Wars families. The PetPicks generator above includes the meaning behind every suggestion, so a name like Nala isn't just cute — you know it means "gift" in Swahili.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">Funny cat names for every feline personality</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Cats practically demand funny names — their dignity makes the comedy land harder. The best funny cat names play on the contrast between feline elegance and everyday silliness: a majestic long-haired cat called Meatball, a tiny kitten called Chairman Meow, a grumpy tabby called Kevin. Food names work brilliantly for cats too (Muffin, Pancake, Wasabi, Nacho), as do "human" names that sound faintly disapproving when shouted down a hallway — think Gary, Brenda, or Nigel.</p>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Pun names deserve their own shelf in the cat world. Cleocatra for a queenly cat, Sir Pounce-a-Lot for an ambush predator, Cat Benatar for a drama queen, Leonardo DiCatrio for a handsome devil — these are the names that get laughs at the vet's office for years. A word of caution from trainers: if the pun is hard to say quickly, keep a short nickname for recall. "Purrincess Leia" is adorable on the collar tag; "Leia" is what you'll actually yell when she's on the kitchen counter.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">Unique pet names for birds, rabbits and small animals</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Dogs and cats get all the attention, but birds, rabbits, hamsters, guinea pigs, ferrets and turtles deserve great names too — and the rules shift slightly. For birds, names that are fun to say out loud work best, since you'll often be talking <em>with</em> a parrot or cockatiel: Kiwi, Mango, Skye, Echo, Tango and Chatter all roll off the tongue. Mythological names like Phoenix, Apollo and Aurora suit birds beautifully, nodding to their almost-magical ability to fly.</p>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Rabbits suit soft, bouncy names — Thumper, Binky (the actual term for a happy bunny jump!), Clover, Hopper and Nibbles. For hamsters and guinea pigs, tiny cute names rule: Pip, Sprout, Bean, Wheek (the sound guinea pigs make when excited) and Popcorn (the joyful jump). Turtles, with their ancient, unhurried vibe, carry dignified or ironic names wonderfully: Shelly, Sage, Crush, Yertle. Whatever the species, the generator's breed and vibe presets can bias suggestions toward names that suit a chatty parrot versus a dignified tortoise.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">Seven rules for choosing a name that actually works</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed"><strong>1. Keep it short.</strong> One or two syllables is ideal. If you fall in love with "Alexander the Great Dane," plan on "Alex" for daily use. <strong>2. Avoid command collisions.</strong> "Kit" sounds like "sit"; "Bo" sounds like "no". Say the name next to your common commands out loud before committing. <strong>3. Mind the ending.</strong> Names ending in vowel sounds (especially "ee") are easiest for animals to pick out from background noise. <strong>4. Test it at volume.</strong> You'll be calling this name across parks and up stairwells. If it feels embarrassing to shout, keep looking. <strong>5. Check the household.</strong> Make sure the name doesn't sound like a family member's name or another pet's name — confusion slows training for everyone. <strong>6. Think long-term.</strong> That tiny kitten named "Tiny" will be a 7-kilo cat one day; "Moose" for a teacup puppy is funny now and funnier later, which is fine — just make it a deliberate choice. <strong>7. Sleep on the shortlist.</strong> Generate a batch, favorite five or six, and live with them for a day or two. The right name tends to keep surfacing.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">The case for pun names</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Pun names — Dolly Purrton, Bark Obama, Jimmy Chew, Virginia Woof — are the extroverts of the pet-naming world. They break the ice with strangers, they photograph well for social media, and they signal that your household doesn't take itself too seriously. The best pun names share three traits: the reference is widely recognized, the animal wordplay is clean (bark, paw, purr, meow, chew, woof), and there's a usable short form for training. "Droolius Caesar" becomes "Caesar" at the park; "Pawdrey Hepburn" becomes "Pawdrey" at home. PetPicks has a dedicated pun generator mode with dozens of curated options, each with its joke explained, so you'll never have to explain the reference twice.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">How to teach your pet its new name</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">Once you've chosen, the training is simple but requires consistency. For the first week, pair the name with good things: say the name, then immediately deliver a treat, a toy, or affection. Repeat in short sessions, five to ten times, a few times a day. Never use the name for scolding — if "Max!" always precedes trouble, Max will learn to flinch instead of come. Most dogs learn to orient to a new name within three to seven days; cats, being cats, may take one to three weeks and will pretend they never heard it regardless.</p>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">If you're renaming an adopted pet, the process is the same — animals live in the present and adapt quickly. Pair the new name with treats for a week before phasing out the old one, and avoid names that sound similar to the old one if the old name carries negative associations. For birds like parrots, repetition is everything: say the name clearly and cheerfully dozens of times a day, and many parrots will eventually say it back to you.</p>
+
+  <h3 class="font-display text-2xl font-semibold mt-8 mb-3">Final thought: trust the shortlist</h3>
+  <p class="mb-4 text-chocosoft font-semibold leading-relaxed">With hundreds of cute dog names, funny cat names and unique pet names in the generator above — each with its meaning, filterable by gender and style, biasable by breed, and saveable to your favorites shortlist — the hardest part isn't finding options, it's choosing. So generate a few batches, heart your favorites, and let the list sit overnight. Tomorrow morning, the name that still makes you grin is the one. Happy naming! 🐾</p>
+</article>
+
+<!-- ============ FAQS ============ -->
+<div class="mt-10">
+  <h2 class="font-display text-3xl font-bold mb-5 text-center">Frequently asked questions</h2>
+  <div id="faqList" class="space-y-3">
+    <details class="bg-white rounded-2xl border-2 border-tang/40 p-5 shadow-sm">
+      <summary class="font-display text-lg font-semibold cursor-pointer">What are the most popular dog names right now?</summary>
+      <p class="mt-2 text-chocosoft font-semibold">Luna, Bella, Daisy and Ruby lead for female dogs, while Max, Milo, Charlie and Cooper top the male charts year after year. Food-inspired names like Biscuit, Mochi and Pepper are the fastest-rising trend, and pop-culture picks like Loki, Simba and Yoda stay evergreen. Popularity is a fine starting point, but trainers recommend choosing a name that is short, distinct from commands, and fun to say — the generator above shows meanings for every suggestion so you can pick with confidence.</p>
+    </details>
+    <details class="bg-white rounded-2xl border-2 border-tang/40 p-5 shadow-sm">
+      <summary class="font-display text-lg font-semibold cursor-pointer">Should I pick a short name for my pet?</summary>
+      <p class="mt-2 text-chocosoft font-semibold">Yes — one or two syllables is ideal. Pets learn short names faster because they're easier to distinguish from background noise and everyday speech. Names ending in a vowel sound, especially "ee" (Milo, Ruby, Ziggy), tend to get the quickest response. If you love a long name like "Alexander the Great Dane" or "Pawdrey Hepburn", that's fine — just decide on the short everyday version (Alex, Pawdrey) you'll use for training and recall.</p>
+    </details>
+    <details class="bg-white rounded-2xl border-2 border-tang/40 p-5 shadow-sm">
+      <summary class="font-display text-lg font-semibold cursor-pointer">How do I teach my pet its new name?</summary>
+      <p class="mt-2 text-chocosoft font-semibold">Pair the name with rewards: say the name, then immediately give a treat, toy or affection. Do short sessions of five to ten repetitions, a few times a day, and never use the name when scolding. Most dogs pick up a new name within three to seven days; cats can take one to three weeks. For parrots and other talking birds, cheerful repetition dozens of times a day works best — many will eventually say the name back to you.</p>
+    </details>
+    <details class="bg-white rounded-2xl border-2 border-tang/40 p-5 shadow-sm">
+      <summary class="font-display text-lg font-semibold cursor-pointer">Can I rename an adopted or rescue pet?</summary>
+      <p class="mt-2 text-chocosoft font-semibold">Absolutely. Animals live in the present and adapt to a new name within days using the same reward-pairing method. Say the new name followed by a treat, repeating often for about a week. If the old name has negative associations, pick something that sounds clearly different. Shelters rename animals all the time, so don't feel guilty — your pet cares far more about the tone of your voice than the specific word.</p>
+    </details>
+    <details class="bg-white rounded-2xl border-2 border-tang/40 p-5 shadow-sm">
+      <summary class="font-display text-lg font-semibold cursor-pointer">Are human names okay for pets?</summary>
+      <p class="mt-2 text-chocosoft font-semibold">More than okay — they're one of the biggest naming trends. Names like Oliver, Ruby, Winston, Stella and Hazel are hugely popular for pets precisely because they sound warm and a little bit funny on an animal. Just avoid names that sound like a family member's name or another pet's name in the same household, since similar-sounding names confuse animals during training.</p>
+    </details>
+    <details class="bg-white rounded-2xl border-2 border-tang/40 p-5 shadow-sm">
+      <summary class="font-display text-lg font-semibold cursor-pointer">How many names should I shortlist before deciding?</summary>
+      <p class="mt-2 text-chocosoft font-semibold">Five or six is the sweet spot. Generate a few batches, tap the heart on the ones that make you smile, and let your favorites shortlist sit overnight — the tool above saves it in your browser automatically. Say each finalist out loud at normal volume and at a shout, imagine calling it at the vet's office, and check it doesn't clash with your common commands. The name that still feels right the next morning is usually the winner.</p>
+    </details>
+  </div>
+</div>
+</section>
+
+<!-- JSON-LD FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"What are the most popular dog names right now?","acceptedAnswer":{"@type":"Answer","text":"Luna, Bella, Daisy and Ruby lead for female dogs, while Max, Milo, Charlie and Cooper top the male charts year after year. Food-inspired names like Biscuit, Mochi and Pepper are the fastest-rising trend, and pop-culture picks like Loki, Simba and Yoda stay evergreen."}},
+    {"@type":"Question","name":"Should I pick a short name for my pet?","acceptedAnswer":{"@type":"Answer","text":"Yes — one or two syllables is ideal. Pets learn short names faster because they're easier to distinguish from background noise. Names ending in a vowel sound, especially 'ee' (Milo, Ruby, Ziggy), tend to get the quickest response."}},
+    {"@type":"Question","name":"How do I teach my pet its new name?","acceptedAnswer":{"@type":"Answer","text":"Pair the name with rewards: say the name, then immediately give a treat, toy or affection. Do short sessions of five to ten repetitions, a few times a day, and never use the name when scolding. Most dogs pick up a new name within three to seven days."}},
+    {"@type":"Question","name":"Can I rename an adopted or rescue pet?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Animals live in the present and adapt to a new name within days using reward pairing. If the old name has negative associations, pick something that sounds clearly different."}},
+    {"@type":"Question","name":"Are human names okay for pets?","acceptedAnswer":{"@type":"Answer","text":"More than okay — they're one of the biggest naming trends. Names like Oliver, Ruby, Winston, Stella and Hazel are hugely popular for pets. Just avoid names that sound like a family member's name in the same household."}},
+    {"@type":"Question","name":"How many names should I shortlist before deciding?","acceptedAnswer":{"@type":"Answer","text":"Five or six is the sweet spot. Generate a few batches, favorite the ones that make you smile, and let the shortlist sit overnight. The name that still feels right the next morning is usually the winner."}}
+  ]
+}
+</script>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t-2 border-tang/40 mt-6">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 text-center">
+    <p class="font-display text-xl font-semibold">🐾 Pet<span class="text-tangdark">Picks</span></p>
+    <p class="text-sm text-chocosoft font-semibold mt-2">Free pet name generator · cute dog names · funny cat names · unique pet names with meanings.<br>All names are generated in your browser — nothing is uploaded, no signup needed.</p>
+    <p class="text-xs text-chocosoft/70 font-semibold mt-3">© 2026 PetPicks. Made with love for good boys and girls everywhere.</p>
+  </div>
+</footer>
+
+<!-- ============ CORE ENGINE (inlined at build time) ============ -->
+<script id="petpicks-core">
+/* PetPicks core engine — pure logic, no DOM.
+ * Inlined verbatim into petpicks.html at build time (<script id="petpicks-core">).
+ * Works in Node (module.exports) and browsers (window.PetPicks). */
+'use strict';
+
+var TYPES = [
+  { id: 'dog',    label: 'Dog',    emoji: '🐶' },
+  { id: 'cat',    label: 'Cat',    emoji: '🐱' },
+  { id: 'bird',   label: 'Bird',   emoji: '🐦' },
+  { id: 'rabbit', label: 'Rabbit', emoji: '🐰' },
+  { id: 'other',  label: 'Other',  emoji: '🦔' }
+];
+
+var STYLES = [
+  { id: 'cute',    label: 'Cute',        emoji: '🥰' },
+  { id: 'funny',   label: 'Funny',       emoji: '😂' },
+  { id: 'pop',     label: 'Pop Culture', emoji: '🎬' },
+  { id: 'food',    label: 'Foodie',      emoji: '🍩' },
+  { id: 'elegant', label: 'Elegant',     emoji: '👑' }
+];
+
+function tuples(list) {
+  return list.map(function (t) {
+    return { name: t[0], meaning: t[1], gender: t[2], styles: t[3] || [] };
+  });
+}
+
+/* ---------------- NAME POOLS (name, meaning, gender m/f/a, [styles]) ---------------- */
+
+var DOG = tuples([
+["Max","From Maximus, Latin for \u201Cgreatest\u201D","m",["pop","cute"]],
+["Luna","Latin for \u201Cmoon\u201D","f",["cute","pop","elegant"]],
+["Bailey","English: \u201Cberry clearing\u201D","a",["cute"]],
+["Cooper","Old trade name for a barrel maker","m",["cute","pop"]],
+["Bella","Italian for \u201Cbeautiful\u201D","f",["cute","elegant"]],
+["Rocky","Stony ground; pure tough-guy energy","m",["pop"]],
+["Daisy","The \u201Cday\u2019s eye\u201D flower","f",["cute"]],
+["Charlie","Old English: \u201Cfree man\u201D; a friendly classic","a",["cute"]],
+["Sadie","Hebrew: \u201Cprincess\u201D","f",["cute"]],
+["Tucker","Old trade name for a cloth softener","m",["funny"]],
+["Oliver","The olive tree, a symbol of peace","m",["cute"]],
+["Penny","A lucky little copper coin","f",["cute","food"]],
+["Zeus","King of the Greek gods","m",["pop","elegant"]],
+["Ruby","The precious red gemstone","f",["cute","elegant"]],
+["Milo","German: \u201Cmerciful soldier\u201D","m",["cute"]],
+["Coco","From cocoa; sweet and brown","f",["food","cute"]],
+["Bear","Big, cuddly and strong","m",["cute"]],
+["Lola","Spanish: \u201Csorrows\u201D \u2014 but she\u2019s all joy","f",["pop","cute"]],
+["Duke","A noble title for a noble pup","m",["elegant"]],
+["Rosie","Like the rose: sweet and classic","f",["cute"]],
+["Finn","Irish: \u201Cfair, white\u201D","m",["cute"]],
+["Pepper","A spicy little seasoning","a",["food","funny"]],
+["Moose","Huge, clumsy and lovable","m",["funny"]],
+["Olive","The peaceful olive branch","f",["food","cute"]],
+["Biscuit","A crunchy baked treat","a",["food","funny","cute"]],
+["Waffles","A sweet breakfast stack","a",["food","funny"]],
+["Pickles","Tangy, briny and quirky","a",["food","funny"]],
+["Noodle","Long, wiggly and silly","a",["food","funny"]],
+["Beans","For those tiny toe beans","a",["food","cute","funny"]],
+["Meatball","Round, hearty and lovable","m",["food","funny"]],
+["Archie","German: \u201Ctruly brave\u201D","m",["cute"]],
+["Winnie","Old English: \u201Choly peacemaking\u201D","f",["cute"]],
+["Teddy","Gift of God; cuddly like a teddy bear","m",["cute"]],
+["Maple","Sweet as maple syrup","f",["food","cute"]],
+["Honey","Sweet golden nectar","f",["food","cute"]],
+["Simba","Swahili: \u201Clion\u201D","m",["pop"]],
+["Nala","Swahili: \u201Cgift\u201D","f",["pop"]],
+["Thor","Norse god of thunder","m",["pop"]],
+["Loki","The Norse trickster god","m",["pop","funny"]],
+["Yoda","The wise Jedi master","a",["pop","funny"]],
+["Leia","The Star Wars princess","f",["pop"]],
+["Chewie","Short for Chewbacca, the loyal Wookiee","m",["pop","funny"]],
+["Frodo","The brave hobbit hero","m",["pop"]],
+["Hermione","The cleverest witch of Hogwarts","f",["pop"]],
+["Dobby","The loyal house-elf","m",["pop","funny"]],
+["Stitch","The mischievous alien experiment 626","a",["pop","funny"]],
+["Scooby","The mystery-solving Great Dane","m",["pop","funny"]],
+["Marley","The lovable movie Labrador","m",["pop"]],
+["Beethoven","The slobbery St. Bernard movie star","m",["pop","funny"]],
+["Rex","Latin: \u201Cking\u201D","m",["elegant"]],
+["Athena","Greek goddess of wisdom","f",["elegant"]],
+["Duchess","A noble lady of the house","f",["elegant"]],
+["Baron","A rank of nobility","m",["elegant"]],
+["Cleo","Short for Cleopatra, the queen","f",["elegant"]],
+["Winston","Old English: \u201Cjoyful stone\u201D; distinguished","m",["elegant"]],
+["Gatsby","The great literary host","m",["pop","elegant"]],
+["Ziggy","German: \u201Cvictorious protector\u201D","a",["funny","cute"]],
+["Buster","One who breaks things (lovingly)","m",["funny"]],
+["Dozer","A champion napper","m",["funny"]],
+["Wiggles","Can\u2019t stop wagging","a",["funny","cute"]],
+["Snickers","The candy bar; giggles guaranteed","a",["food","funny"]],
+["Taco","A tasty folded treat","a",["food","funny"]],
+["Mochi","Japanese sweet rice cake","a",["food","cute"]],
+["Sushi","The Japanese delicacy","a",["food"]],
+["Pretzel","A twisty baked snack","a",["food","funny"]],
+["Oreo","The black-and-white cookie","a",["food","cute"]],
+["Peanut","Tiny and nutty","a",["food","cute"]]
+]);
+
+var CAT = tuples([
+["Luna","Latin for \u201Cmoon\u201D","f",["cute","elegant","pop"]],
+["Oliver","The olive tree, a symbol of peace","m",["cute"]],
+["Milo","German: \u201Cmerciful soldier\u201D","m",["cute"]],
+["Leo","Latin: \u201Clion\u201D","m",["pop","elegant"]],
+["Lily","The pure white flower","f",["cute"]],
+["Nala","Swahili: \u201Cgift\u201D","f",["pop"]],
+["Simba","Swahili: \u201Clion\u201D","m",["pop"]],
+["Kitty","The timeless classic cat name","f",["cute"]],
+["Smokey","Grey and mysterious like smoke","m",["cute"]],
+["Oreo","The black-and-white cookie","a",["food","cute"]],
+["Whiskers","For those fabulous whiskers","a",["funny","cute"]],
+["Mittens","Paws like little mittens","a",["cute"]],
+["Shadow","Follows you everywhere","a",["cute"]],
+["Tiger","Striped like a tiny tiger","m",["cute"]],
+["Felix","Latin: \u201Clucky\u201D","m",["pop"]],
+["Garfield","The lasagna-loving cartoon cat","m",["pop","food","funny"]],
+["Tom","The classic cartoon cat","m",["pop"]],
+["Sylvester","The lisping Looney Tunes cat","m",["pop","funny"]],
+["Salem","The sassy black cat from Sabrina","a",["pop"]],
+["Figaro","Pinocchio\u2019s tuxedo kitten","m",["pop","elegant"]],
+["Marie","The Aristocats\u2019 little songstress","f",["pop","cute"]],
+["Duchess","The Aristocats\u2019 elegant mama","f",["pop","elegant"]],
+["Biscuit","A crunchy baked treat","a",["food","funny","cute"]],
+["Mochi","Japanese sweet rice cake","a",["food","cute"]],
+["Muffin","A sweet baked treat","a",["food","cute"]],
+["Pancake","Flat, sweet and lovable","a",["food","funny"]],
+["Waffles","A sweet breakfast stack","a",["food","funny"]],
+["Noodle","Long, wiggly and silly","a",["food","funny"]],
+["Pepper","A spicy little seasoning","a",["food"]],
+["Olive","The peaceful olive branch","f",["food","cute"]],
+["Peanut","Tiny and nutty","a",["food","cute"]],
+["Beans","For those tiny toe beans","a",["food","cute","funny"]],
+["Sushi","The Japanese delicacy","a",["food"]],
+["Tofu","Soft, squishy and mild","a",["food","funny"]],
+["Wasabi","A spicy green kick","a",["food","funny"]],
+["Pickles","Tangy, briny and quirky","a",["food","funny"]],
+["Nacho","A cheesy snack","m",["food","funny"]],
+["Taco","A tasty folded treat","a",["food","funny"]],
+["Pretzel","A twisty baked snack","a",["food","funny"]],
+["Meatball","Round, hearty and lovable","m",["food","funny"]],
+["Pudding","A soft, sweet dessert","a",["food","cute"]],
+["Cupcake","A tiny sweet cake","f",["food","cute"]],
+["Honey","Sweet golden nectar","f",["food","cute"]],
+["Maple","Sweet as maple syrup","f",["food","cute"]],
+["Cinnamon","A warm, sweet spice","a",["food","cute"]],
+["Ginger","A spicy root; perfect for orange coats","a",["food","cute"]],
+["Pumpkin","A round orange cutie","a",["food","cute"]],
+["Clover","A lucky four-leaf","f",["cute"]],
+["Willow","A graceful, swaying tree","f",["elegant","cute"]],
+["Cleo","Short for Cleopatra, the queen","f",["elegant"]],
+["Athena","Greek goddess of wisdom","f",["elegant"]],
+["Gatsby","The great literary host","m",["pop","elegant"]],
+["Winston","Old English: \u201Cjoyful stone\u201D; distinguished","m",["elegant"]],
+["Ziggy","German: \u201Cvictorious protector\u201D","a",["funny","cute"]],
+["Buster","A loving troublemaker","m",["funny"]],
+["Wiggles","Can\u2019t sit still","a",["funny","cute"]],
+["Dozer","A champion napper","m",["funny"]],
+["Captain Whiskers","Sails the seven sofas","a",["funny"]],
+["Socks","White paws like little socks","a",["cute"]],
+["Boots","Puss in Boots charm","a",["pop","cute"]],
+["Tigger","Bouncy like the striped tiger","m",["pop","funny"]],
+["Bagheera","The Jungle Book\u2019s sleek panther","m",["pop","elegant"]],
+["Rajah","Hindi: \u201Cking\u201D; Jasmine\u2019s tiger","m",["pop","elegant"]],
+["Hobbes","Calvin\u2019s tiger best friend","m",["pop"]],
+["Cheshire","The grinning Wonderland cat","a",["pop","funny"]],
+["Crookshanks","Hermione\u2019s clever cat","m",["pop"]],
+["Mrs. Norris","The caretaker\u2019s watchful cat","f",["pop","funny"]],
+["Orion","The hunter constellation","m",["elegant"]],
+["Stella","Latin: \u201Cstar\u201D","f",["elegant"]],
+["Aurora","The dawn; northern lights","f",["elegant"]],
+["Opal","An iridescent gemstone","f",["elegant"]],
+["Pearl","A treasure from the ocean","f",["elegant"]],
+["Jasper","A speckled gemstone","m",["elegant"]],
+["Onyx","A sleek black gemstone","m",["elegant"]]
+]);
+
+var BIRD = tuples([
+["Kiwi","A fuzzy green fruit","a",["food","cute"]],
+["Mango","A sweet tropical fruit","a",["food","cute"]],
+["Sunny","Bright as sunshine","a",["cute"]],
+["Skye","The wide open sky they belong to","a",["cute"]],
+["Rio","The animated macaw\u2019s city","a",["pop"]],
+["Blu","Rio\u2019s blue macaw hero","m",["pop"]],
+["Jewel","Rio\u2019s sparkling macaw","f",["pop","elegant"]],
+["Nigel","The scheming cockatoo villain","m",["pop","funny"]],
+["Tweety","The Looney Tunes canary","a",["pop","cute"]],
+["Woodstock","Snoopy\u2019s tiny bird buddy","m",["pop","funny"]],
+["Zazu","The Lion King\u2019s fussy hornbill","m",["pop","funny"]],
+["Iago","Aladdin\u2019s loud-mouthed parrot","m",["pop","funny"]],
+["Hedwig","Harry\u2019s loyal snowy owl","f",["pop","elegant"]],
+["Polly","The classic parrot name","f",["cute"]],
+["Coco","From cocoa; sweet and brown","f",["food","cute"]],
+["Pepper","A spicy little seasoning","a",["food"]],
+["Pickles","Tangy, briny and quirky","a",["food","funny"]],
+["Biscuit","A crunchy baked treat","a",["food","cute","funny"]],
+["Peanut","Tiny and nutty","a",["food","cute"]],
+["Noodle","Wiggly and silly","a",["food","funny"]],
+["Mochi","Japanese sweet rice cake","a",["food","cute"]],
+["Bean","Tiny and cute","a",["food","cute"]],
+["Sprout","A little green shoot","a",["cute"]],
+["Pip","A tiny seed; a tiny bird","a",["cute"]],
+["Chirpy","Always singing","a",["funny","cute"]],
+["Echo","Repeats everything you say","a",["cute"]],
+["Chatter","Never stops talking","a",["funny"]],
+["Tango","Dances on the perch","a",["funny"]],
+["Boomer","Loud and bold","m",["funny"]],
+["Ziggy","German: \u201Cvictorious protector\u201D","a",["funny"]],
+["Wiggles","Can\u2019t sit still","a",["funny","cute"]],
+["Skittles","Taste the rainbow","a",["food","funny"]],
+["Jellybean","A sweet little bean","a",["food","cute"]],
+["Cupcake","A tiny sweet cake","f",["food","cute"]],
+["Honey","Sweet golden nectar","f",["food","cute"]],
+["Azure","Bright blue like the sky","a",["elegant"]],
+["Sapphire","The brilliant blue gem","f",["elegant"]],
+["Indigo","A deep blue-violet hue","a",["elegant"]],
+["Opal","An iridescent gemstone","f",["elegant"]],
+["Pearl","A treasure from the ocean","f",["elegant"]],
+["Aurora","The dawn; northern lights","f",["elegant"]],
+["Stella","Latin: \u201Cstar\u201D","f",["elegant"]],
+["Orion","The hunter constellation","m",["elegant"]],
+["Apollo","Greek god of the sun","m",["pop","elegant"]],
+["Athena","Greek goddess of wisdom","f",["elegant"]],
+["Zeus","King of the Greek gods","m",["pop","elegant"]],
+["Phoenix","The bird that rises from ashes","a",["pop","elegant"]],
+["Falcon","A swift, sharp hunter","m",["pop"]],
+["Merlin","The wizard; also a small falcon","m",["pop","elegant"]],
+["Willow","A graceful, swaying tree","f",["elegant","cute"]],
+["Clover","A lucky four-leaf","f",["cute"]],
+["Daisy","The \u201Cday\u2019s eye\u201D flower","f",["cute"]],
+["Poppy","A cheerful red flower","f",["cute"]],
+["Olive","The peaceful olive branch","f",["food","cute"]],
+["Ginger","A spicy root","a",["food","cute"]],
+["Nutmeg","A warm, sweet spice","a",["food","cute"]],
+["Paprika","A bright red spice","f",["food","funny"]],
+["Saffron","The golden spice","f",["food","elegant"]],
+["Taffy","A chewy sweet candy","a",["food","funny"]],
+["Butters","Buttery and sweet","a",["food","funny"]],
+["Domino","Black-and-white markings","a",["cute"]],
+["Pippin","The cheerful hobbit","m",["pop","cute"]],
+["Frodo","The brave hobbit hero","m",["pop"]],
+["Sam","The loyal hobbit friend","m",["pop","cute"]],
+["Dobby","The loyal house-elf","m",["pop","funny"]],
+["Yoda","The wise Jedi master","a",["pop","funny"]],
+["Chewie","The loyal Wookiee co-pilot","m",["pop","funny"]]
+]);
+
+var RABBIT = tuples([
+["Thumper","Bambi\u2019s thumping bunny","m",["pop","cute"]],
+["Bugs","Bugs Bunny himself","m",["pop","funny"]],
+["Lola","The Space Jam sweetheart","f",["pop","cute"]],
+["Roger","The zany cartoon rabbit","m",["pop","funny"]],
+["Peter","Peter Rabbit of the garden","m",["pop","cute"]],
+["Benjamin","Peter Rabbit\u2019s cousin","m",["pop"]],
+["Cottontail","A fluffy white tail","f",["cute"]],
+["Snowball","A round white fluff","a",["cute"]],
+["Flopsy","A floppy-eared cutie","f",["cute"]],
+["Mopsy","Peter Rabbit\u2019s sister","f",["pop","cute"]],
+["Clover","A lucky four-leaf","f",["cute"]],
+["Daisy","The \u201Cday\u2019s eye\u201D flower","f",["cute"]],
+["Poppy","A cheerful red flower","f",["cute"]],
+["Willow","A graceful, swaying tree","f",["cute","elegant"]],
+["Hazel","Warm brown like hazel eyes","f",["cute","elegant"]],
+["Juniper","A fresh evergreen shrub","f",["cute","elegant"]],
+["Maple","Sweet as maple syrup","f",["food","cute"]],
+["Honey","Sweet golden nectar","f",["food","cute"]],
+["Biscuit","A crunchy baked treat","a",["food","cute","funny"]],
+["Muffin","A sweet baked treat","a",["food","cute"]],
+["Pancake","Flat and lovable","a",["food","funny"]],
+["Waffles","A sweet breakfast stack","a",["food","funny"]],
+["Noodle","Wiggly and silly","a",["food","funny"]],
+["Peanut","Tiny and nutty","a",["food","cute"]],
+["Bean","Tiny and cute","a",["food","cute"]],
+["Mochi","Japanese sweet rice cake","a",["food","cute"]],
+["Pudding","A soft, sweet dessert","a",["food","cute"]],
+["Cupcake","A tiny sweet cake","f",["food","cute"]],
+["Cocoa","Warm drinking chocolate","f",["food","cute"]],
+["Oreo","The black-and-white cookie","a",["food","cute"]],
+["Pepper","A spicy little seasoning","a",["food"]],
+["Pickles","Tangy, briny and quirky","a",["food","funny"]],
+["Nacho","A cheesy snack","m",["food","funny"]],
+["Taco","A tasty folded treat","a",["food","funny"]],
+["Buster","A loving troublemaker","m",["funny"]],
+["Wiggles","Can\u2019t sit still","a",["funny","cute"]],
+["Ziggy","German: \u201Cvictorious protector\u201D","a",["funny"]],
+["Dozer","A champion napper","m",["funny"]],
+["Hopper","Born to hop","a",["funny","cute"]],
+["Binky","The joyful bunny jump","a",["funny","cute"]],
+["Nibbles","Always nibbling","a",["funny","cute"]],
+["Dash","Fast as a dash","m",["cute"]],
+["Bolt","Lightning quick","m",["pop"]],
+["Turbo","Super speedy","m",["funny"]],
+["Whiskers","For those fabulous whiskers","a",["cute"]],
+["Socks","Feet like little socks","a",["cute"]],
+["Boots","Stylish feet","a",["cute"]],
+["Domino","A spotted coat","a",["cute"]],
+["Onyx","A sleek black gemstone","m",["elegant"]],
+["Pearl","A treasure from the ocean","f",["elegant"]],
+["Opal","An iridescent gemstone","f",["elegant"]],
+["Luna","Latin for \u201Cmoon\u201D","f",["cute","elegant"]],
+["Stella","Latin: \u201Cstar\u201D","f",["elegant"]],
+["Aurora","The dawn; northern lights","f",["elegant"]],
+["Cleo","A little queen","f",["elegant"]],
+["Duchess","A noble lady","f",["elegant"]],
+["Gatsby","The great literary host","m",["pop","elegant"]],
+["Winston","Old English: \u201Cjoyful stone\u201D; distinguished","m",["elegant"]],
+["Houdini","The great escape artist","m",["pop","funny"]],
+["Yoda","The wise Jedi master","a",["pop","funny"]],
+["Pip","Tiny and precious","a",["cute"]],
+["Sprout","A little green shoot","a",["cute"]],
+["Cinnamon","A warm, sweet spice","a",["food","cute"]],
+["Ginger","A spicy root","a",["food","cute"]],
+["Nutmeg","A warm, sweet spice","a",["food","cute"]],
+["Butters","Buttery and sweet","a",["food","funny"]]
+]);
+
+var OTHER = tuples([
+["Hammy","The classic hamster name","a",["cute"]],
+["Cheeks","Cheeks stuffed with snacks","a",["funny","cute"]],
+["Nibbles","Always nibbling","a",["funny","cute"]],
+["Peanut","Tiny and nutty","a",["food","cute"]],
+["Biscuit","A crunchy baked treat","a",["food","cute","funny"]],
+["Mochi","Japanese sweet rice cake","a",["food","cute"]],
+["Bean","Tiny and cute","a",["food","cute"]],
+["Pip","Tiny and precious","a",["cute"]],
+["Sprout","A little green shoot","a",["cute"]],
+["Wiggles","Can\u2019t sit still","a",["funny","cute"]],
+["Ziggy","German: \u201Cvictorious protector\u201D","a",["funny"]],
+["Dozer","A champion napper","m",["funny"]],
+["Buster","A loving troublemaker","m",["funny"]],
+["Turbo","Super speedy","m",["funny"]],
+["Dash","Fast as a dash","m",["cute"]],
+["Pickles","Tangy, briny and quirky","a",["food","funny"]],
+["Noodle","Wiggly and silly","a",["food","funny"]],
+["Waffles","A sweet breakfast stack","a",["food","funny"]],
+["Pancake","Flat and lovable","a",["food","funny"]],
+["Taco","A tasty folded treat","a",["food","funny"]],
+["Nacho","A cheesy snack","m",["food","funny"]],
+["Pretzel","A twisty baked snack","a",["food","funny"]],
+["Meatball","Round, hearty and lovable","m",["food","funny"]],
+["Pudding","A soft, sweet dessert","a",["food","cute"]],
+["Cupcake","A tiny sweet cake","f",["food","cute"]],
+["Honey","Sweet golden nectar","f",["food","cute"]],
+["Maple","Sweet as maple syrup","f",["food","cute"]],
+["Cocoa","Warm drinking chocolate","f",["food","cute"]],
+["Oreo","The black-and-white cookie","a",["food","cute"]],
+["Cinnamon","A warm, sweet spice","a",["food","cute"]],
+["Ginger","A spicy root","a",["food","cute"]],
+["Nutmeg","A warm, sweet spice","a",["food","cute"]],
+["Pepper","A spicy little seasoning","a",["food"]],
+["Olive","The peaceful olive branch","f",["food","cute"]],
+["Socks","Feet like little socks","a",["cute"]],
+["Mittens","Paws like little mittens","a",["cute"]],
+["Snowball","A round white fluff","a",["cute"]],
+["Clover","A lucky four-leaf","f",["cute"]],
+["Daisy","The \u201Cday\u2019s eye\u201D flower","f",["cute"]],
+["Poppy","A cheerful red flower","f",["cute"]],
+["Willow","A graceful, swaying tree","f",["cute","elegant"]],
+["Hazel","Warm brown","f",["cute","elegant"]],
+["Juniper","A fresh evergreen shrub","f",["cute","elegant"]],
+["Luna","Latin for \u201Cmoon\u201D","f",["cute","elegant"]],
+["Stella","Latin: \u201Cstar\u201D","f",["elegant"]],
+["Opal","An iridescent gemstone","f",["elegant"]],
+["Pearl","A treasure from the ocean","f",["elegant"]],
+["Onyx","A sleek black gemstone","m",["elegant"]],
+["Jasper","A speckled gemstone","m",["elegant"]],
+["Cleo","A little queen","f",["elegant"]],
+["Gatsby","The great literary host","m",["pop","elegant"]],
+["Yoda","The wise Jedi master","a",["pop","funny"]],
+["Dobby","The loyal house-elf","m",["pop","funny"]],
+["Frodo","The brave hobbit hero","m",["pop"]],
+["Sam","The loyal friend","m",["pop","cute"]],
+["Pippin","The cheerful hobbit","m",["pop","cute"]],
+["Houdini","The great escape artist","m",["pop","funny"]],
+["Sheldon","A nod to the TV turtle lover","m",["pop","funny"]],
+["Yertle","The Dr. Seuss turtle king","m",["pop","funny"]],
+["Crush","The chill sea turtle","m",["pop","funny"]],
+["Squirt","A tiny turtle tot","a",["pop","cute"]],
+["Donatello","The Ninja Turtle brainiac","m",["pop","funny"]],
+["Mikey","The party-dude Ninja Turtle","m",["pop","funny"]],
+["Splinter","The wise rat sensei","m",["pop"]],
+["Remy","Ratatouille\u2019s little chef","m",["pop","food"]],
+["Templeton","The barnyard rat with attitude","m",["pop","funny"]]
+]);
+
+var NAME_DB = { dog: DOG, cat: CAT, bird: BIRD, rabbit: RABBIT, other: OTHER };
+
+/* ---------------- PUN BANK (name, joke-explanation, gender) ---------------- */
+
+var PUNS = tuples([
+["Bark Twain","Mark Twain, but he barks \u2014 for a literary dog","m",[]],
+["Dolly Purrton","Dolly Parton\u2019s feline twin; a country-music cat","f",[]],
+["Chewbarka","Chewbacca\u2019s good-girl cousin from a galaxy far, far away","a",[]],
+["Hairy Pawtter","Harry Potter with paws and a lightning-bolt spot","m",[]],
+["Sherlock Bones","Elementary, my dear Watson \u2014 the detective dog","m",[]],
+["Ozzy Pawsbourne","The Prince of Barkness; a rock-legend dog","m",[]],
+["Salvador Dogi","The surrealist painter, now with a magnificent mustache","m",[]],
+["Pup Tart","A toaster pastry that grew legs","a",[]],
+["Kitty Purry","Katy Perry\u2019s purring alter ego","f",[]],
+["Obi-Wan Canolli","A Jedi master who is also a dessert","m",[]],
+["Bark Obama","Yes we can (fetch)","m",[]],
+["Virginia Woof","Modernist literature, now with 100% more woof","f",[]],
+["Winnie the Poodle","A silly old bear, but make it poodle","a",[]],
+["Pawdrey Hepburn","Breakfast at Tiffany\u2019s elegance on four legs","f",[]],
+["Droolius Caesar","Veni, vidi, drooli \u2014 he came, he saw, he slobbered","m",[]],
+["Furdinand","Ferdinand the bull, but fluffier","m",[]],
+["Mary Puppins","Practically perfect in every way","f",[]],
+["Jimmy Chew","Designer shoes for the fashion-forward pup","m",[]],
+["Indiana Bones","The adventurer; hates snakes, loves treats","m",[]],
+["Luke Skybarker","May the fetch be with you","m",[]],
+["Paw Revere","The squirrels are coming! The squirrels are coming!","m",[]],
+["Alexander the Great Dane","Conqueror of the couch","m",[]],
+["Cleocatra","Queen of the Nile and the windowsill","f",[]],
+["Chairman Meow","The revolutionary leader of the household","m",[]],
+["Sir Pounce-a-Lot","A knight of the round scratching post","m",[]],
+["Cat Benatar","Hit me with your best nap","f",[]],
+["Leonardo DiCatrio","King of the world (and the cat tree)","m",[]],
+["Hairy Styles","A watermelon-sugar-high fluffball","m",[]],
+["Billie Eyelash","Bad-guy whiskers","f",[]],
+["Purrincess Leia","A rebel princess with a magnificent purr","f",[]],
+["Meowly Cyrus","A wrecking ball of cuddles","f",[]],
+["Anderson Pooper","Reporting live from the litter box","m",[]],
+["Oprah Whiskerfrey","You get a treat! YOU get a treat!","f",[]],
+["Bark Kent","Superman\u2019s mild-mannered canine identity","m",[]],
+["James Pond","Licensed to krill; 007 with fins","m",[]],
+["Cluck Norris","Roundhouse-kicks the sunrise into happening","m",[]],
+["Quack Sparrow","Captain of the Black Pearl-pond","m",[]],
+["Hoppy Potter","The bunny who lived","m",[]],
+["Beatrix Trotter","Peter Rabbit\u2019s globetrotting cousin","f",[]],
+["Lady Pawga","Born this way (fluffy)","f",[]],
+["Elvis Pawsley","The King of rock \u2018n\u2019 roll-over","m",[]],
+["Bob Barker","Come on down! The price is right to adopt","m",[]],
+["Snoop Dogg","The D-O-double-G himself","m",[]],
+["Mutt Damon","Hollywood\u2019s most good-looking good boy","m",[]],
+["Kanye Westie","West Highland attitude","m",[]]
+]);
+
+/* ---------------- BREED / VIBE PRESETS ---------------- */
+
+var PRESETS = [
+  { id: 'golden',   label: 'Golden Retriever', emoji: '\uD83E\uDDAE', for: 'dog',    vibe: 'Friendly goofball',  bias: ['funny','cute'],
+    bonus: [["Sunny","Golden like sunshine","a",["cute"]],["Splash","Loves the water","a",["funny"]],["Goldie","Worth her weight in gold","f",["cute"]]] },
+  { id: 'shepherd', label: 'German Shepherd',  emoji: '🐕', for: 'dog',    vibe: 'Loyal guardian',   bias: ['elegant'],
+    bonus: [["Ace","Top dog, first class","m",["elegant"]],["Blitz","German for \u201Clightning\u201D","m",["elegant"]],["Kaiser","German for \u201Cemperor\u201D","m",["elegant"]]] },
+  { id: 'poodle',   label: 'Poodle',           emoji: '🐩', for: 'dog',    vibe: 'Fancy & clever',   bias: ['elegant','pop'],
+    bonus: [["Fifi","French chic","f",["elegant"]],["Chanel","Designer elegance","f",["elegant"]],["Pierre","A French charmer","m",["elegant"]]] },
+  { id: 'bulldog',  label: 'Bulldog',          emoji: '🐶', for: 'dog',    vibe: 'Grumpy-sweet couch pro', bias: ['funny'],
+    bonus: [["Tank","Built like one","m",["funny"]],["Wrinkles","Extra folds, extra love","a",["funny"]],["Brutus","A gentle giant","m",["funny"]]] },
+  { id: 'persian',  label: 'Persian Cat',      emoji: '🐱', for: 'cat',    vibe: 'Regal fluff cloud', bias: ['elegant'],
+    bonus: [["Empress","Rules the roost","f",["elegant"]],["Velvet","Soft as velvet","a",["elegant"]],["Sultan","Royalty of the sofa","m",["elegant"]]] },
+  { id: 'siamese',  label: 'Siamese Cat',      emoji: '🐈', for: 'cat',    vibe: 'Chatty & striking', bias: ['pop','elegant'],
+    bonus: [["Sapphire","Blue eyes like gems","f",["elegant"]],["Thai","From Thailand with love","a",["elegant"]],["Mali","Thai for \u201Cjasmine flower\u201D","f",["elegant"]]] },
+  { id: 'mainecoon',label: 'Maine Coon',       emoji: '🐈‍⬛', for: 'cat',   vibe: 'Gentle giant',     bias: ['cute'],
+    bonus: [["Goliath","A big softie","m",["cute"]],["Marshmallow","One big white fluff","a",["cute"]],["Jumbo","Extra-large cuddles","m",["cute"]]] },
+  { id: 'sphynx',   label: 'Sphynx Cat',       emoji: '🐱', for: 'cat',    vibe: 'Weird & wonderful', bias: ['funny'],
+    bonus: [["Gollum","My precious (hairless)","m",["funny"]],["Pinky","Pink and proud","a",["funny"]],["Dobbie","A wrinkly house-elf","m",["funny"]]] },
+  { id: 'parrot',   label: 'Parrot',           emoji: '🦜', for: 'bird',   vibe: 'Talkative comedian', bias: ['funny','pop'],
+    bonus: [["Captain","Captain of the perch","m",["funny"]],["Squawks","Says what it thinks","a",["funny"]],["Echo","A human-voice mimic","a",["pop"]]] },
+  { id: 'cockatiel',label: 'Cockatiel',        emoji: '🐦', for: 'bird',   vibe: 'Crested cutie',     bias: ['cute'],
+    bonus: [["Crest","Fancy head feathers","a",["cute"]],["Whistler","Sings all day","a",["cute"]],["Cheeks","Orange cheek patches","a",["cute"]]] },
+  { id: 'budgie',   label: 'Budgie',           emoji: '🐤', for: 'bird',   vibe: 'Tiny chatterbox',   bias: ['cute','funny'],
+    bonus: [["Beep","Makes tiny robot sounds","a",["funny"]],["Chirp","The morning alarm","a",["cute"]],["Nib","A tiny beak","a",["cute"]]] },
+  { id: 'hollandlop', label: 'Holland Lop',    emoji: '🐰', for: 'rabbit', vibe: 'Floppy-eared sweetheart', bias: ['cute'],
+    bonus: [["Flop","A champion napper","a",["cute"]],["Snuggle","A professional cuddler","a",["cute"]],["Lopsy","Ears for days","a",["cute"]]] },
+  { id: 'rexrabbit', label: 'Rex Rabbit',      emoji: '🐇', for: 'rabbit', vibe: 'Velvet-furred',     bias: ['elegant'],
+    bonus: [["Plush","Like a plush toy","a",["elegant"]],["Velvet","Soft as velvet","a",["elegant"]],["Satin","Smooth and sleek","a",["elegant"]]] },
+  { id: 'angora',   label: 'Angora Rabbit',    emoji: '🐰', for: 'rabbit', vibe: 'Fluffy cloud',      bias: ['cute','elegant'],
+    bonus: [["Cloud","A cloud with ears","a",["cute"]],["Cotton","Soft as cotton","a",["cute"]],["Puff","A walking powder puff","a",["cute"]]] },
+  { id: 'hamster',  label: 'Hamster',          emoji: '🐹', for: 'other',  vibe: 'Pocket-sized',      bias: ['cute','funny'],
+    bonus: [["Wheelie","A marathon runner","a",["funny"]],["Hoarder","Saves snacks for later","a",["funny"]],["Pouch","Cheeks full of treasure","a",["cute"]]] },
+  { id: 'guineapig',label: 'Guinea Pig',       emoji: '🐹', for: 'other',  vibe: 'Squeaky socialite', bias: ['cute'],
+    bonus: [["Wheek","The guinea pig battle cry","a",["cute"]],["Popcorn","Does happy popcorn jumps","a",["cute"]],["Squeak","Loud and proud","a",["funny"]]] },
+  { id: 'ferret',   label: 'Ferret',           emoji: '🦦', for: 'other',  vibe: 'Mischievous noodle', bias: ['funny'],
+    bonus: [["Bandit","A masked mischief-maker","m",["funny"]],["Slip","Impossible to hold","a",["funny"]],["Weasel","Sneaky and speedy","m",["funny"]]] },
+  { id: 'turtle',   label: 'Turtle / Tortoise',emoji: '🐢', for: 'other',  vibe: 'Wise slowpoke',     bias: ['elegant','funny'],
+    bonus: [["Shelly","Home is where the shell is","a",["funny"]],["Pokey","Takes the scenic route","a",["funny"]],["Sage","Old and wise","a",["elegant"]]] }
+];
+
+/* ---------------- RNG ---------------- */
+
+function mulberry32(seed) {
+  var a = seed >>> 0;
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    var t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function shuffledCopy(arr, rng) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(rng() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+/* ---------------- GENERATION ---------------- */
+
+function toCard(e) {
+  return { name: e.name, meaning: e.meaning, gender: e.gender, styles: e.styles.slice(), pun: !!e.pun };
+}
+
+function getPreset(id) {
+  for (var i = 0; i < PRESETS.length; i++) if (PRESETS[i].id === id) return PRESETS[i];
+  return null;
+}
+
+function presetsFor(type) {
+  return PRESETS.filter(function (p) { return p.for === type; });
+}
+
+/**
+ * opts: { type, gender('m'|'f'|'any'), styles[], presetId, pun(bool), count, seed }
+ * Returns array of { name, meaning, gender, styles, pun } — no duplicates.
+ */
+function generateNames(opts) {
+  opts = opts || {};
+  var type = opts.type || 'dog';
+  var gender = opts.gender || 'any';
+  var styles = opts.styles || [];
+  var count = (typeof opts.count === 'number') ? opts.count : 12;
+  var seed = (opts.seed == null) ? ((Date.now() ^ (Math.random() * 1e9)) >>> 0) : (opts.seed >>> 0);
+  var rng = mulberry32(seed);
+
+  if (count <= 0) return [];
+
+  function genderOk(g) { return gender === 'any' || g === 'a' || g === gender; }
+
+  if (opts.pun) {
+    var puns = PUNS.filter(function (p) { return genderOk(p.gender); })
+      .map(function (p) { var c = toCard(p); c.pun = true; return c; });
+    return shuffledCopy(puns, rng).slice(0, count);
+  }
+
+  var preset = opts.presetId ? getPreset(opts.presetId) : null;
+  if (preset && preset.for !== type) preset = null;
+
+  var base = (NAME_DB[type] || [])
+    .filter(function (e) {
+      if (!genderOk(e.gender)) return false;
+      if (styles.length && !e.styles.some(function (s) { return styles.indexOf(s) >= 0; })) return false;
+      return true;
+    })
+    .map(toCard);
+
+  var seen = {};
+  base.forEach(function (c) { seen[c.name.toLowerCase()] = true; });
+
+  var bonus = [];
+  if (preset) {
+    bonus = preset.bonus
+      .filter(function (b) { return genderOk(b[2]) && !seen[b[0].toLowerCase()]; })
+      .map(function (b) { var c = toCard(tuples([b])[0]); c.preset = preset.label; return c; });
+  }
+
+  var pool = bonus.concat(base);
+  pool.forEach(function (c, i) {
+    var styleHits = c.styles.filter(function (s) { return styles.indexOf(s) >= 0; }).length;
+    var biasHit = (preset && preset.bias.some(function (b) { return c.styles.indexOf(b) >= 0; })) ? 3 : 0;
+    c._score = (i < bonus.length ? 100 : 0) + styleHits + biasHit + rng();
+  });
+  pool.sort(function (a, b) { return b._score - a._score; });
+
+  return pool.slice(0, count).map(function (c) {
+    return { name: c.name, meaning: c.meaning, gender: c.gender, styles: c.styles, pun: false, preset: c.preset || null };
+  });
+}
+
+/* ---------------- FAVORITES (storage-injected for testability) ---------------- */
+
+var FAV_KEY = 'petpicks-favorites-v1';
+
+function loadFavorites(store) {
+  try {
+    var raw = store.getItem(FAV_KEY);
+    if (!raw) return [];
+    var arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch (e) { return []; }
+}
+
+function saveFavorites(store, list) {
+  try { store.setItem(FAV_KEY, JSON.stringify(list)); } catch (e) {}
+}
+
+function addFavorite(store, item) {
+  var list = loadFavorites(store);
+  var exists = list.some(function (f) { return f.name === item.name; });
+  if (!exists) {
+    list.push({ name: item.name, meaning: item.meaning, gender: item.gender || 'a', pun: !!item.pun });
+    saveFavorites(store, list);
+  }
+  return list;
+}
+
+function removeFavorite(store, name) {
+  var list = loadFavorites(store).filter(function (f) { return f.name !== name; });
+  saveFavorites(store, list);
+  return list;
+}
+
+function isFavorite(store, name) {
+  return loadFavorites(store).some(function (f) { return f.name === name; });
+}
+
+function clearFavorites(store) {
+  saveFavorites(store, []);
+  return [];
+}
+
+function createMemoryStore() {
+  var data = {};
+  return {
+    getItem: function (k) { return Object.prototype.hasOwnProperty.call(data, k) ? data[k] : null; },
+    setItem: function (k, v) { data[k] = String(v); },
+    removeItem: function (k) { delete data[k]; }
+  };
+}
+
+var api = {
+  TYPES: TYPES, STYLES: STYLES, NAME_DB: NAME_DB, PUNS: PUNS, PRESETS: PRESETS,
+  generateNames: generateNames, getPreset: getPreset, presetsFor: presetsFor,
+  mulberry32: mulberry32, shuffledCopy: shuffledCopy,
+  loadFavorites: loadFavorites, saveFavorites: saveFavorites,
+  addFavorite: addFavorite, removeFavorite: removeFavorite,
+  isFavorite: isFavorite, clearFavorites: clearFavorites,
+  createMemoryStore: createMemoryStore, FAV_KEY: FAV_KEY
+};
+
+if (typeof module !== 'undefined' && module.exports) { module.exports = api; }
+else if (typeof window !== 'undefined') { window.PetPicks = api; }
+
+</script>
+
+<!-- ============ APP ============ -->
+<script>
+(function () {
+  'use strict';
+  var P = window.PetPicks;
+  var state = { type: 'dog', gender: 'any', styles: [], pun: false, presetId: null };
+
+  var typeCards = document.getElementById('typeCards');
+  var stylePills = document.getElementById('stylePills');
+  var genderSeg = document.getElementById('genderSeg');
+  var presetChips = document.getElementById('presetChips');
+  var presetBlurb = document.getElementById('presetBlurb');
+  var punToggle = document.getElementById('punToggle');
+  var resultsSection = document.getElementById('resultsSection');
+  var resultsGrid = document.getElementById('resultsGrid');
+  var emptyMsg = document.getElementById('emptyMsg');
+  var favGrid = document.getElementById('favGrid');
+  var favEmpty = document.getElementById('favEmpty');
+  var favCount = document.getElementById('favCount');
+
+  /* ---- render controls ---- */
+  function renderTypes() {
+    typeCards.innerHTML = '';
+    P.TYPES.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'type-card card-pop bg-cream/60 border-2 border-tang/40 rounded-2xl p-3 sm:p-4 text-center';
+      b.setAttribute('aria-pressed', state.type === t.id ? 'true' : 'false');
+      b.innerHTML = '<div class="text-3xl sm:text-4xl">' + t.emoji + '</div>' +
+        '<div class="font-display font-semibold mt-1">' + t.label + '</div>';
+      b.addEventListener('click', function () {
+        state.type = t.id; state.presetId = null;
+        renderTypes(); renderPresets();
+      });
+      typeCards.appendChild(b);
+    });
+  }
+
+  function renderStyles() {
+    stylePills.innerHTML = '';
+    P.STYLES.forEach(function (s) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pill px-4 py-2 rounded-full border-2 border-tang/60 bg-white font-extrabold text-sm sm:text-base';
+      b.setAttribute('aria-pressed', state.styles.indexOf(s.id) >= 0 ? 'true' : 'false');
+      b.textContent = s.emoji + ' ' + s.label;
+      b.disabled = state.pun;
+      b.style.opacity = state.pun ? '0.4' : '1';
+      b.addEventListener('click', function () {
+        var i = state.styles.indexOf(s.id);
+        if (i >= 0) state.styles.splice(i, 1); else state.styles.push(s.id);
+        renderStyles();
+      });
+      stylePills.appendChild(b);
+    });
+  }
+
+  genderSeg.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-gender]');
+    if (!btn) return;
+    state.gender = btn.getAttribute('data-gender');
+    genderSeg.querySelectorAll('.seg').forEach(function (el) {
+      el.setAttribute('aria-pressed', el.getAttribute('data-gender') === state.gender ? 'true' : 'false');
+    });
+  });
+
+  function renderPresets() {
+    presetChips.innerHTML = '';
+    var list = P.presetsFor(state.type);
+    list.forEach(function (pr) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'preset-chip px-4 py-2 rounded-full border-2 border-tang/60 bg-white font-extrabold text-sm';
+      b.setAttribute('aria-pressed', state.presetId === pr.id ? 'true' : 'false');
+      b.textContent = pr.emoji + ' ' + pr.label;
+      b.title = pr.vibe;
+      b.addEventListener('click', function () {
+        state.presetId = (state.presetId === pr.id) ? null : pr.id;
+        renderPresets();
+      });
+      presetChips.appendChild(b);
+    });
+    if (state.presetId) {
+      var pr = P.getPreset(state.presetId);
+      presetBlurb.textContent = '✨ ' + pr.label + ' — ' + pr.vibe + '. ' + 'Names leaning ' + pr.bias.join(' + ') + ' get boosted, plus exclusive bonus names.';
+      presetBlurb.classList.remove('hidden');
+    } else {
+      presetBlurb.classList.add('hidden');
+    }
+  }
+
+  punToggle.addEventListener('click', function () {
+    state.pun = !state.pun;
+    punToggle.setAttribute('aria-checked', state.pun ? 'true' : 'false');
+    punToggle.classList.toggle('bg-tangdark', state.pun);
+    punToggle.classList.toggle('bg-choco/20', !state.pun);
+    punToggle.querySelector('.toggle-dot').style.transform = state.pun ? 'translateX(28px)' : 'translateX(0)';
+    renderStyles();
+  });
+
+  /* ---- results ---- */
+  function styleChips(styles) {
+    return styles.map(function (s) {
+      var meta = P.STYLES.filter(function (x) { return x.id === s; })[0];
+      return meta ? '<span class="text-[11px] font-extrabold bg-cream border border-tang/50 rounded-full px-2 py-0.5">' + meta.emoji + ' ' + meta.label + '</span>' : '';
+    }).join('');
+  }
+
+  function genderBadge(g) {
+    if (g === 'm') return '<span class="text-[11px] font-extrabold text-sky-700 bg-sky-100 rounded-full px-2 py-0.5">♂ Boy</span>';
+    if (g === 'f') return '<span class="text-[11px] font-extrabold text-rose-700 bg-rose-100 rounded-full px-2 py-0.5">♀ Girl</span>';
+    return '<span class="text-[11px] font-extrabold text-chocosoft bg-cream border border-tang/50 rounded-full px-2 py-0.5">⚥ Any</span>';
+  }
+
+  function nameCard(item) {
+    var fav = P.isFavorite(window.localStorage, item.name);
+    var div = document.createElement('div');
+    div.className = 'fade-in card-pop bg-white border-2 border-tang/40 rounded-2xl p-4 sm:p-5 flex flex-col gap-2 shadow-sm';
+    div.innerHTML =
+      '<div class="flex items-start justify-between gap-2">' +
+        '<h3 class="font-display text-xl sm:text-2xl font-semibold leading-tight">' + escapeHtml(item.name) + '</h3>' +
+        '<button type="button" class="fav-btn text-2xl leading-none" aria-pressed="' + fav + '" aria-label="Save to favorites" title="Save to favorites">' + (fav ? '❤️' : '🤍') + '</button>' +
+      '</div>' +
+      '<p class="text-sm text-chocosoft font-semibold leading-relaxed flex-1">' + escapeHtml(item.meaning) + '</p>' +
+      '<div class="flex flex-wrap items-center gap-1.5">' + genderBadge(item.gender) + styleChips(item.styles) +
+        (item.pun ? '<span class="text-[11px] font-extrabold bg-tang/30 border border-tangdark/40 rounded-full px-2 py-0.5">🎭 Pun</span>' : '') +
+        (item.preset ? '<span class="text-[11px] font-extrabold bg-amber-100 border border-amber-400 rounded-full px-2 py-0.5">✨ ' + escapeHtml(item.preset) + '</span>' : '') +
+      '</div>' +
+      '<button type="button" class="copy-btn self-start text-xs font-extrabold text-tangdark hover:text-choco underline underline-offset-2">📋 Copy name</button>';
+
+    div.querySelector('.fav-btn').addEventListener('click', function (e) {
+      var btn = e.currentTarget;
+      if (P.isFavorite(window.localStorage, item.name)) {
+        P.removeFavorite(window.localStorage, item.name);
+        btn.setAttribute('aria-pressed', 'false'); btn.textContent = '🤍';
+      } else {
+        P.addFavorite(window.localStorage, item);
+        btn.setAttribute('aria-pressed', 'true'); btn.textContent = '❤️';
+      }
+      renderFavs();
+    });
+    div.querySelector('.copy-btn').addEventListener('click', function (e) {
+      copyText(item.name, e.currentTarget);
+    });
+    return div;
+  }
+
+  function generate() {
+    var batch = P.generateNames({
+      type: state.type, gender: state.gender, styles: state.styles,
+      presetId: state.presetId, pun: state.pun, count: 12
+    });
+    resultsSection.classList.remove('hidden');
+    resultsGrid.innerHTML = '';
+    batch.forEach(function (item) { resultsGrid.appendChild(nameCard(item)); });
+    emptyMsg.classList.toggle('hidden', batch.length > 0);
+    resultsGrid.classList.toggle('hidden', batch.length === 0);
+    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', generate);
+  document.getElementById('moreBtn').addEventListener('click', generate);
+
+  /* ---- favorites ---- */
+  function renderFavs() {
+    var list = P.loadFavorites(window.localStorage);
+    favCount.textContent = '(' + list.length + ')';
+    favGrid.innerHTML = '';
+    favEmpty.style.display = list.length ? 'none' : 'block';
+    list.forEach(function (f) {
+      var div = document.createElement('div');
+      div.className = 'fade-in bg-white/10 border border-white/20 rounded-2xl p-4';
+      div.innerHTML =
+        '<div class="flex items-start justify-between gap-2">' +
+          '<h3 class="font-display text-lg font-semibold text-white">' + escapeHtml(f.name) + '</h3>' +
+          '<button type="button" class="remove-btn text-cream/70 hover:text-white text-lg" aria-label="Remove from favorites">✕</button>' +
+        '</div>' +
+        '<p class="text-sm text-cream/70 font-semibold mt-1">' + escapeHtml(f.meaning || '') + '</p>';
+      div.querySelector('.remove-btn').addEventListener('click', function () {
+        P.removeFavorite(window.localStorage, f.name);
+        renderFavs();
+        document.querySelectorAll('#resultsGrid .fav-btn').forEach(function () {});
+      });
+      favGrid.appendChild(div);
+    });
+  }
+
+  document.getElementById('clearFavsBtn').addEventListener('click', function () {
+    if (!P.loadFavorites(window.localStorage).length) return;
+    if (confirm('Clear your whole favorites shortlist?')) { P.clearFavorites(window.localStorage); renderFavs(); }
+  });
+
+  document.getElementById('copyFavsBtn').addEventListener('click', function (e) {
+    var list = P.loadFavorites(window.localStorage);
+    if (!list.length) { copyText('', e.currentTarget); return; }
+    copyText(list.map(function (f, i) { return (i + 1) + '. ' + f.name + (f.meaning ? ' — ' + f.meaning : ''); }).join('\n'), e.currentTarget);
+  });
+
+  /* ---- helpers ---- */
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function copyText(text, btn) {
+    var done = function (ok) {
+      if (!btn) return;
+      var orig = btn.textContent;
+      btn.textContent = ok ? '✅ Copied!' : '⚠️ Copy failed';
+      setTimeout(function () { btn.textContent = orig; }, 1500);
+    };
+    if (!text) { done(false); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { done(document.execCommand('copy')); } catch (e) { done(false); }
+      document.body.removeChild(ta);
+    }
+  }
+
+  /* ---- init ---- */
+  renderTypes(); renderStyles(); renderPresets(); renderFavs();
+})();
+</script>
+</body>
+</html>
